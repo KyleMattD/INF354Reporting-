@@ -3,7 +3,7 @@ import {Chart} from 'chart.js';
 import {ReportServiceService} from './Service/report-service.service';
 import { mergeMap, groupBy, map, reduce } from 'rxjs/operators';
 
-import * as jsPDF  from 'jspdf'
+import  jsPDF  from 'jspdf'
 import 'jspdf-autotable';
 
 
@@ -43,6 +43,7 @@ export class AppComponent {
 
   downloadRequest(){
     this.reporting.generateReportData(this.selectedOption).subscribe((res) =>{
+      console.log(res)
       var doc = new jsPDF();
 
       var pageHeight = doc.internal.pageSize.height || doc.internal.getHeight();

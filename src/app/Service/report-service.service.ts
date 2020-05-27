@@ -9,12 +9,12 @@ import { map } from 'rxjs/operators';
 })
 export class ReportServiceService {
 
-  apiURL: string ='https://localhost:44359/api';
+  apiURL: string ='https://localhost:44359/api/';
 
   constructor(private _http:HttpClient) { }
 
   generateReportData(selectedOption: number){
-    return this._http.get(this.apiURL+"Report/getReportingData?SelectedOptionID="+selectedOption).pipe(map(result => result));
+    return this._http.get(this.apiURL+"Reports/getReportingData?categorySelection="+selectedOption).pipe(map(result => result));
   }
   // downloadReports(selection, type){
   //   return this._http.get("http://localhost:4200/api/NWAPI/downloadReport?categorySelection"+selection+"&type"+type,{responseType:"blob"});
