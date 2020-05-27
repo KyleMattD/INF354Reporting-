@@ -4,7 +4,7 @@ import {ReportServiceService} from './Service/report-service.service';
 import { mergeMap, groupBy, map, reduce } from 'rxjs/operators';
 
 import  jsPDF  from 'jspdf'
-import 'jspdf-autotable';
+import autoTable from 'jspdf-autotable'
 
 
 @Component({
@@ -58,19 +58,35 @@ export class AppComponent {
       var newCanvas = <HTMLCanvasElement>document.querySelector('#canvas');
       var newCanvasImg = newCanvas.toDataURL("image/png",1.0);
 
-      doc.setFontSize(40);
+     
+      let data = []
+      res['TableData'].map(x => {
+          data.push([x.Key,
+            x.TotalUntis])
+        })
 
-      doc.text("Product Report",(pageWidth/2)-15,15);
-      doc.addImage(newCanvasImg,'PNG',25,25,160,150);
-      doc.setFontSize(14)
-      for(let i=0; i< length; i++)
-      {
-        doc.text(names[i]+"(Amounts:"+ amount[i]+"%)",(pageWidth/2)-25, finalY+23)
-        doc.autotable({startY:finalY+25, html:'#testing'+i, useCss:true,head:[
-          ['Product', 'Amount']
-        ]})
-        finalY=doc.autotable.previous.finalY;
-      }
+      doc.autoTable({
+        head: [ ['Product', 'Amount']],
+        body: data,
+        didDrawPage: function (data) {
+          // Header
+          doc.setFontSize(40);
+
+          doc.text("Product Report",(pageWidth/2)-15,15);
+          doc.addImage(newCanvasImg,'PNG',25,25,160,150);
+          doc.setFontSize(14)
+        },
+        margin: {top: 3}
+      })
+
+      // for(let i=0; i< length; i++)
+      // {
+      //   doc.text(names[i]+"(Amounts:"+ amount[i]+"%)",(pageWidth/2)-25, finalY+23)
+      //   doc.autoTable({startY:finalY+25, html:'#testing'+i, useCss:true,head:[
+      //     ['Product', 'Amount']
+      //   ]})
+      //   finalY=doc.autoTable.previous.finalY;
+      // }
       doc.save('table.pdf');
     })
   }
