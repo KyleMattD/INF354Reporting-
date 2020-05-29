@@ -3,9 +3,8 @@ import {Chart} from 'chart.js';
 import {ReportServiceService} from './Service/report-service.service';
 import { mergeMap, groupBy, map, reduce } from 'rxjs/operators';
 
-import  jsPDF  from 'jspdf'
-import autoTable from 'jspdf-autotable'
-
+import  jsPDF  from 'jspdf';
+import autotable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-root',
@@ -58,7 +57,7 @@ export class AppComponent {
       var newCanvas = <HTMLCanvasElement>document.querySelector('#canvas');
       var newCanvasImg = newCanvas.toDataURL("image/png",1.0);
 
-     
+
       let data = []
       res['TableData'].map(x => {
           data.push([x.Key,
@@ -78,40 +77,35 @@ export class AppComponent {
         },
         margin: {top: 3}
       })
-
-      // for(let i=0; i< length; i++)
-      // {
-      //   doc.text(names[i]+"(Amounts:"+ amount[i]+"%)",(pageWidth/2)-25, finalY+23)
-      //   doc.autoTable({startY:finalY+25, html:'#testing'+i, useCss:true,head:[
-      //     ['Product', 'Amount']
-      //   ]})
-      //   finalY=doc.autoTable.previous.finalY;
-      // }
+      //comment out if breaks
+      /* for(let i=0; i< length; i++)
+      {
+        doc.text(names[i]+"(Amounts:"+ amount[i]+"%)",(pageWidth/2)-25, finalY+23)
+        doc.autoTable({startY:finalY+25, html:'#testing'+i, useCss:true,head:[
+          ['Product', 'Amount']
+        ]})
+        finalY=doc.autoTable.previous.finalY;
+      } */
       doc.save('table.pdf');
     })
   }
 
 submitRequest(){
+  console.log(this.selectedOption);
   if(this.chart) this.chart.destroy();
 
-  if(this.selectedOption ==undefined)
-  {
-    this.showErrorMessage=true;
-  }
-  else
-  {
-    this.showErrorMessage=false;
-    this.reporting.generateReportData(this.selectedOption).subscribe(response =>{
-      console.log(response);
-    this.TableData=response['TableData']
 
-      let keys = response['ChartData'].map(p=>p.Name);
-      let values = response['ChartData'].map(p=> p.Amount);
+  // this.display = false;
+  // this.canvas = document.getElementById('canvas');
+  // this.ctx = this.canvas.getContext('2d');
 
-      let totUnits = response['TableData'].map(p=>p.Amount);
-      const sum = totUnits.Amount((a,b)=> a+b,0)
-      this.totalUnits = sum;
+    this.reporting.generateReportData(this.selectedOption).subscribe((res) =>{
+      console.log(res);
 
+      let keys = res['ChartData'].map(p=>p.Key);
+      let values = res['ChartData'].map(p=> p.TotalUnits)
+
+      this.category= res["TableDate"];
 
       this.chart = new Chart('canvas',{
         type: 'bar',
@@ -156,8 +150,6 @@ submitRequest(){
         }
       })
     });
-  }
 }
-
 }
 
