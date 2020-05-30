@@ -41,6 +41,7 @@ export class AppComponent {
   }
 
   downloadRequest(){
+    var self = this
     this.reporting.generateReportData(this.selectedOption).subscribe((res) =>{
       console.log(res)
       var doc = new jsPDF();
@@ -70,13 +71,13 @@ export class AppComponent {
           // Header
           doc.setFontSize(40);
 
-          doc.text("Product Report",(pageWidth/2)-40,15);
+          doc.text(self.options[self.selectedOption -1 ].data +" Report",(pageWidth/2)-40,15);
           doc.addImage(newCanvasImg,'PNG',25,25,160,150);
           doc.setFontSize(14)
         },
         margin: {top: 180, bottom:5}
       })
-      doc.save('table.pdf');
+      doc.save(self.options[self.selectedOption -1 ].data +' Report.pdf');
     })
   }
 
