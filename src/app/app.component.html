@@ -13,7 +13,7 @@
   You did not select an option! Please select one.
  </div>
   <br><br>
- <button mat-raised-button-color="primary" (clicl)="submitRequest()">Generate</button>
+ <button mat-raised-button-color="primary" (click)="submitRequest()">Generate</button>
  <button mat-button-color="accent" (click)="downloadRequest()">Download PDF</button>
 </div>
 
@@ -40,7 +40,7 @@
           <tbody>
             <tr *ngFor="let item of item.Products">
               <td>{{item.ProductName}}</td>
-              <td>{{item.UnitsInStock}}</td>
+              <td>{{item.TotalUnits}}</td>
             </tr>
           </tbody>
         </table>

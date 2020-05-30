@@ -4,7 +4,7 @@ import {ReportServiceService} from './Service/report-service.service';
 import { mergeMap, groupBy, map, reduce } from 'rxjs/operators';
 
 import  jsPDF  from 'jspdf';
-import autotable from 'jspdf-autotable';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-root',
@@ -53,7 +53,6 @@ export class AppComponent {
       let names = res['TableData'].map(a => a.Name);
       let amount = res['TableData'].map(a=> a.Amount);
 
-      let finalY=160;
       var newCanvas = <HTMLCanvasElement>document.querySelector('#canvas');
       var newCanvasImg = newCanvas.toDataURL("image/png",1.0);
 
@@ -75,17 +74,8 @@ export class AppComponent {
           doc.addImage(newCanvasImg,'PNG',25,25,160,150);
           doc.setFontSize(14)
         },
-        margin: {top: 3}
+        margin: {top: 20, bottom:5}
       })
-      //comment out if breaks
-      /* for(let i=0; i< length; i++)
-      {
-        doc.text(names[i]+"(Amounts:"+ amount[i]+"%)",(pageWidth/2)-25, finalY+23)
-        doc.autoTable({startY:finalY+25, html:'#testing'+i, useCss:true,head:[
-          ['Product', 'Amount']
-        ]})
-        finalY=doc.autoTable.previous.finalY;
-      } */
       doc.save('table.pdf');
     })
   }
@@ -94,18 +84,14 @@ submitRequest(){
   console.log(this.selectedOption);
   if(this.chart) this.chart.destroy();
 
-
-  // this.display = false;
-  // this.canvas = document.getElementById('canvas');
-  // this.ctx = this.canvas.getContext('2d');
-
     this.reporting.generateReportData(this.selectedOption).subscribe((res) =>{
       console.log(res);
 
       let keys = res['ChartData'].map(p=>p.Key);
       let values = res['ChartData'].map(p=> p.TotalUnits)
 
-      this.category= res["TableDate"];
+      this.totalUnits=res['TableData'];
+      this.selectedOption= res["TableData"];
 
       this.chart = new Chart('canvas',{
         type: 'bar',
