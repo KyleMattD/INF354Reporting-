@@ -70,11 +70,11 @@ export class AppComponent {
           // Header
           doc.setFontSize(40);
 
-          doc.text("Product Report",(pageWidth/2)-15,15);
+          doc.text("Product Report",(pageWidth/2)-40,15);
           doc.addImage(newCanvasImg,'PNG',25,25,160,150);
           doc.setFontSize(14)
         },
-        margin: {top: 20, bottom:5}
+        margin: {top: 180, bottom:5}
       })
       doc.save('table.pdf');
     })
@@ -86,12 +86,13 @@ submitRequest(){
 
     this.reporting.generateReportData(this.selectedOption).subscribe((res) =>{
       console.log(res);
-
+      this.TableData = res['TableData']
+      console.log(this.TableData)
       let keys = res['ChartData'].map(p=>p.Key);
       let values = res['ChartData'].map(p=> p.TotalUnits)
 
       this.totalUnits=res['TableData'];
-      this.selectedOption= res["TableData"];
+      // this.selectedOption= res["TableData"];
 
       this.chart = new Chart('canvas',{
         type: 'bar',

@@ -14,7 +14,7 @@ export class ReportServiceService {
   constructor(private _http:HttpClient) { }
 
   generateReportData(selectedOption: number){
-    return this._http.get(this.apiURL+"Reports/getReportData/"+selectedOption).pipe(map(result => result));
+    return this._http.get(this.apiURL+"Reports/getReportData?categorySelection="+selectedOption).pipe(map(result => result));
   }
   // downloadReports(selection, type){
   //   return this._http.get("http://localhost:4200/api/NWAPI/downloadReport?categorySelection"+selection+"&type"+type,{responseType:"blob"});

@@ -27,10 +27,10 @@
 
 <div id="TableDiv">
   <div class="table">
-    <table class="table" id="jsPDFTable">
-      <div *ngFor="let item of TableData; let i =index">
-        <table class="container table-latitude" id="testing{{i}}">
-          <caption><strong>{{item.Name}}</strong>(Amount: {{item.amount}})</caption>
+    <!-- <table class="table" id="jsPDFTable"> -->
+        <!-- id="testing{{i}}" -->
+        <table class="container table-latitude" >
+          <!-- <caption><strong>{{item.Name}}</strong>(Amount: {{item.amount}})</caption> -->
           <thead>
             <tr>
               <th>Product Name</th>
@@ -38,13 +38,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of item.Products">
-              <td>{{item.ProductName}}</td>
-              <td>{{item.TotalUnits}}</td>
+            <tr *ngFor="let item of TableData">
+              <td>{{item.Key}}</td>
+              <td>{{item.TotalUntis}}</td>
             </tr>
           </tbody>
         </table>
-      </div>
       <div *ngIf="TableData" id="controlBreak">
         <div *ngIf="selectedOption && selectedOption ==1">Total units in stock for Beverages: {{totalUnits}}</div>
         <div *ngIf="selectedOption && selectedOption ==2">Total units in stock for Condiments: {{totalUnits}}</div>
@@ -55,6 +54,6 @@
         <div *ngIf="selectedOption && selectedOption ==7">Total units in stock for Produce: {{totalUnits}}</div>
         <div *ngIf="selectedOption && selectedOption ==8">Total units in stock for Seafood: {{totalUnits}}</div>
       </div>
-    </table>
+    <!-- </table> -->
   </div>
 </div>
